@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="gameContainer">
+        <h1>Tic Tac Toe</h1>
+        <div id="cellContainer">
+            <div cellIndex="0" class="cell"></div>
+            <div cellIndex="1" class="cell"></div>
+            <div cellIndex="2" class="cell"></div>
+            <div cellIndex="3" class="cell"></div>
+            <div cellIndex="4" class="cell"></div>
+            <div cellIndex="5" class="cell"></div>
+            <div cellIndex="6" class="cell"></div>
+            <div cellIndex="7" class="cell"></div>
+            <div cellIndex="8" class="cell"></div>
+        </div>
+        <h2 id="statusText"></h2>
+        <button id="restartBtn">Restart</button>
+        
+        <div>
+            <br>
+            <textarea id="code">
+
+                board = options.slice();
+                
+                // Define the maximizing player and minimizing player
+                const aiPlayer = "O";
+                const humanPlayer = "X";
+                
+                // Define the evaluation function for the board
+                function evaluate(board) {
+                  // Check for a winner
+                  const winPatterns = [      [0, 1, 2], [3, 4, 5], [6, 7, 8], // rows
+                    [0, 3, 6], [1, 4, 7], [2, 5, 8], // columns
+                    [0, 4, 8], [2, 4, 6]             // diagonals
+                  ];
+                  for (let pattern of winPatterns) {
+                    const [a, b, c] = pattern;
+                    if (board[a] && board[a] === board[b] && board[b] === board[c]) {
+                      if (board[a] === aiPlayer) {
+                        return 10;
+                      } else if (board[a] === humanPlayer) {
+                        return -10;
+                      }
+                    }
+                  }
+                
+                  // Check for a tie
+                  if (!board.includes("")) {
+                    return 0;
+                  }
+                
+                  // Otherwise, return null
+                  return null;
+                }
+                
+                // Define the minimax function
+                function minimax(board, depth, maximizingPlayer) {
+                  // Evaluate the board at the current depth
+                  const evaluation = evaluate(board);
+                
+                  // If the evaluation is not null, return the value
+                  if (evaluation !== null) {
+                    return evaluation;
+                  }
+                
+                  // Otherwise, determine the best score for the current player
+                  if (maximizingPlayer) {
+                    let bestScore = -Infinity;
+                    for (let i = 0; i < board.length; i++) {
+                      if (board[i] === "") {
+                        board[i] = aiPlayer;
+                        const score = minimax(board, depth + 1, false);
+                        board[i] = "";
+                        bestScore = Math.max(score, bestScore);
+                      }
+                    }
+                    return bestScore;
+                  } else {
+                    let bestScore = Infinity;
+                    for (let i = 0; i < board.length; i++) {
+                      if (board[i] === "") {
+                        board[i] = humanPlayer;
+                        const score = minimax(board, depth + 1, true);
+                        board[i] = "";
+                        bestScore = Math.min(score, bestScore);
+                      }
+                    }
+                    return bestScore;
+                  }
+                }
+                
+                // Find the best move for the AI player
+                let bestScore = -Infinity;
+                let bestMove;
+                for (let i = 0; i < board.length; i++) {
+                  if (board[i] === "") {
+                    board[i] = aiPlayer;
+                    const score = minimax(board, 0, false);
+                    board[i] = "";
+                    if (score > bestScore) {
+                      bestScore = score;
+                      bestMove = i;
+                    }
+                  }
+                }
+                
+                
+                cellIndex = bestMove;
+                </textarea>
+            <div class="card">
+              <button id="eval" style="border: 2px solid;">execute and insert the code</button>
+            </div>
+        </div>
+        
+        <div>
+            <h4>Make sure to set variable cellIndex at the end in textarea, in order for bot to make the desired move. </h4>
+        </div>
+    <div>
+
+    </div>
+    </div>
+    <span style="display: none;" id="420">1</span>
+
+    <script src="index.js"></script>
+    
+</body>
+</html>
