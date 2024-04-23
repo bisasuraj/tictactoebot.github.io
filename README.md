@@ -31,6 +31,8 @@ This is a simple vanilla JavaScript project that implements a Tic-Tac-Toe game w
 
 ## Submitting Scores
 
+### https://gamification-database.firebaseapp.com/
+
 1. After testing the bot and obtaining your score, you can submit your score to the database by entering your unique user ID and clicking the "Insert ID" button.
 2. Enter your score and click the "Final Submit" button to update your score in the Firebase database.
 
